@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ghost Run</title>
+</head>
+<script>
+    window.addEventListener('load', load);
+
+    function load() {
+        var submit = document.getElementById("button");
+
+
+        submit.addEventListener("click", function getName() {
+
+            var username = document.getElementById("username").value;
+            localStorage.setItem("username",username);
+        });
+    }
+</script>
+<body>
+<h1 id="titel">Ghost Run</h1>
+<div id="container">
+    <div id="canvaswrapper">
+        <h3>Give your ghost a name!</h3>
+        <form action="index.html">
+            <input id="username" type="text" name="ign" required>
+            <input id="button" type="submit" value="Enter">
+            <p>Developed by ....
+            </p>
+        </form>
+    </div>
+</div>
+</body>
+</html>
