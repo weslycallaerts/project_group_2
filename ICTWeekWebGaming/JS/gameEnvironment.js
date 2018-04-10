@@ -1,9 +1,12 @@
 const POSTFLOOR = 490;
 const HEIGHTMAINCARAC  = 32;
+const ACELLERATECONST  = 0.3;
 var monsterImg;
 var floorImg;
 var mainCaracImg;
 var myObstacle;
+var floor = POSTFLOOR - HEIGHTMAINCARAC ;
+var ceil;
 
 function startGame() {
     monsterImg = new component(30, 480, "red", 5, 10);
@@ -22,10 +25,11 @@ var myGameArea = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
-            myGameArea.key = e.keyCode;
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
         })
         window.addEventListener('keyup', function (e) {
-            myGameArea.key = false;
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
         })
     },
     clear : function() {
@@ -47,11 +51,16 @@ function updateGameArea() {
         mainCaracImg.x -= 1;
         mainCaracImg.speedX = 0;
         mainCaracImg.speedY = 0;
-        if (myGameArea.key && myGameArea.key == keyNum.LEFT) {
+        if (myGameArea.keys && myGameArea.keys[37]) {
             mainCaracImg.speedX = -1;
         }
-        if (myGameArea.key && myGameArea.key == keyNum.RIGHT) {
+        if (myGameArea.keys && myGameArea.keys[39]) {
             mainCaracImg.speedX = 2;
+        }
+        if (myGameArea.keys && myGameArea.keys[32] && mainCaracImg.y == floor) {
+            ceil = floor - 100;
+            mainCaracImg.gravitySpeed = 0;
+            accelerate(-ACELLERATECONST);
         }
         mainCaracImg.newPos();
         mainCaracImg.update();
@@ -78,11 +87,16 @@ function component(width, height, color, x, y) {
         this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
         this.hitBottom();
+        this.hitCeiling();
     }
     this.hitBottom = function() {
-        var floor = POSTFLOOR - HEIGHTMAINCARAC ; //myGameArea.canvas.height - (96 + 32);
         if (this.y > floor) {
             this.y = floor;
+        }
+    }
+    this.hitCeiling = function() {
+        if (this.y < ceil) {
+            accelerate(ACELLERATECONST);
         }
     }
     this.crashWith = function(otherobj) {
@@ -100,4 +114,7 @@ function component(width, height, color, x, y) {
         }
         return crash;
     }
+}
+function accelerate(n) {
+    mainCaracImg.gravity = n;
 }
