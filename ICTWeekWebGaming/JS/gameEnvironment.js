@@ -3,11 +3,13 @@ const HEIGHTMAINCARAC  = 32;
 var monsterImg;
 var floorImg;
 var mainCaracImg;
+var myObstacle;
 
 function startGame() {
     monsterImg = new component(30, 480, "red", 5, 10);
     floorImg = new component(896, 96, "green", 0, POSTFLOOR);
     mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "blue", 100, 250);
+    myObstacle  = new component(10, 200, "green", 300, 120);
     myGameArea.start();
 }
 
