@@ -39,10 +39,8 @@ function updateGameArea() {
     monsterImg.update();
     mainCaracImg.speedX = 0;
     mainCaracImg.speedY = 0;
-    if (myGameArea.key && myGameArea.key == 37) {mainCaracImg.speedX = -1; }
-    if (myGameArea.key && myGameArea.key == 39) {mainCaracImg.speedX = 1; }
-    if (myGameArea.key && myGameArea.key == 38) {mainCaracImg.speedY = -1; }
-    if (myGameArea.key && myGameArea.key == 40) {mainCaracImg.speedY = 9; }
+    if (myGameArea.key && myGameArea.key == keyNum.LEFT) {mainCaracImg.speedX = -1; }
+    if (myGameArea.key && myGameArea.key == keyNum.RIGHT) {mainCaracImg.speedX = 1; }
     mainCaracImg.newPos();
     mainCaracImg.update();
     floorImg.update();
