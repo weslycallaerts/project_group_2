@@ -28,51 +28,35 @@ var myGameArea = {
             myGameArea.key = false;
         })
     },
-    stop : function() {
-        clearInterval(this.interval);
-    },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
     }
 }
 
 function updateGameArea() {
-    myGameArea.clear();
-    monsterImg.update();
-    mainCaracImg.speedX = 0;
-    mainCaracImg.speedY = 0;
-    if (myGameArea.key && myGameArea.key == keyNum.LEFT) {mainCaracImg.speedX = -1; }
-    if (myGameArea.key && myGameArea.key == keyNum.RIGHT) {mainCaracImg.speedX = 1; }
-    mainCaracImg.newPos();
-    mainCaracImg.update();
-    floorImg.update();
-
-}
-
-window.onkeypress = function(event) {
-    // On récupère le code de la touche
-    var e = event || window.event;
-    var key = e.which || e.keyCode;
-
-    switch(key) {
-        case 38 : case 122 : case 119 : case 90 : case 87 : // Flèche haut, z, w, Z, W
-        mainCaracImg.speedY -= 1;
-        break;
-        case 40 : case 115 : case 83 : // Flèche bas, s, S
-        mainCaracImg.speedY += 1;
-        break;
-        case 37 : case 113 : case 97 : case 81 : case 65 : // Flèche gauche, q, a, Q, A
-        mainCaracImg.speedX -= 1;
-        break;
-        case 39 : case 100 : case 68 : // Flèche droite, d, D
-        mainCaracImg.speedX += 1;
-        break;
-        default :
-            //alert(key);
-            // Si la touche ne nous sert pas, nous n'avons aucune raison de bloquer son comportement normal.
-            return true;
+    if (mainCaracImg.crashWith(monsterImg)) {
+        myGameArea.stop();
+    } else {
+        myGameArea.clear();
+        myObstacle.update();
+        myObstacle.x -= 1;
+        monsterImg.update();
+        mainCaracImg.x -= 1;
+        mainCaracImg.speedX = 0;
+        mainCaracImg.speedY = 0;
+        if (myGameArea.key && myGameArea.key == keyNum.LEFT) {
+            mainCaracImg.speedX = -1;
+        }
+        if (myGameArea.key && myGameArea.key == keyNum.RIGHT) {
+            mainCaracImg.speedX = 2;
+        }
+        mainCaracImg.newPos();
+        mainCaracImg.update();
+        floorImg.update();
     }
-    return false;
 }
 
 function component(width, height, color, x, y) {
@@ -100,5 +84,20 @@ function component(width, height, color, x, y) {
         if (this.y > floor) {
             this.y = floor;
         }
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
     }
 }
