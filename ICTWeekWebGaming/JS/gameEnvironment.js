@@ -12,10 +12,15 @@ function startGame() {
     monsterImg = new component(30, 480, "red", 5, 10);
     floorImg = new component(896, 96, "green", 0, POSTFLOOR);
     mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "blue", 100, 250);
-    myObstacle  = new component(10, 200, "green", 300, 120);
+    myObstacle  = new component(200, 200, "green", 300, 250);
     myGameArea.start();
 }
 
+/**
+ * Creation of the games area
+ * @type {{canvas: HTMLCanvasElement, start: myGameArea.start, clear: myGameArea.clear, stop: myGameArea.stop}}
+ *
+ */
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -40,10 +45,19 @@ var myGameArea = {
     }
 }
 
+/**
+ * Update the game area to make it dynamique
+ */
 function updateGameArea() {
     if (mainCaracImg.crashWith(monsterImg)) {
         myGameArea.stop();
     } else {
+        if(mainCaracImg.collideWith(myObstacle)){
+            floor = mainCaracImg.y;
+        }
+        else{
+            floor = POSTFLOOR - HEIGHTMAINCARAC;
+        }
         myGameArea.clear();
         myObstacle.update();
         myObstacle.x -= 1;
@@ -68,6 +82,14 @@ function updateGameArea() {
     }
 }
 
+/**
+ * Creation of the component thing to change with the image
+ * @param width
+ * @param height
+ * @param color
+ * @param x
+ * @param y
+ */
 function component(width, height, color, x, y) {
     this.width = width;
     this.height = height;
@@ -109,10 +131,31 @@ function component(width, height, color, x, y) {
         var othertop = otherobj.y;
         var otherbottom = otherobj.y + (otherobj.height);
         var crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+        if ((mybottom < othertop) ||
+            (mytop > otherbottom) ||
+            (myright < otherleft) ||
+            (myleft > otherright)) {
             crash = false;
         }
         return crash;
+    }
+    this.collideWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var collide = true;
+        if ((mybottom < othertop) ||
+            (mytop > otherbottom) ||
+            (myright < otherleft) ||
+            (myleft > otherright)) {
+            collide = false;
+        }
+        return collide;
     }
 }
 function accelerate(n) {
