@@ -21,7 +21,7 @@ function startGame() {
     floorOfDeath = new component(896, 0, "brown", 0, 790, "floor")
     myScore.text="SCORE: 0";
     myBackground = new background(896, 576, "images/background.jpg", 0, 0, "image");
-    mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "images/ghosty_ghost1_resized.png", 250, 250, "image");
+    mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "images/ghosty_ghost1_resized.png", 400, 400, "image");
     myGameArea.start();
 }
 
@@ -247,7 +247,7 @@ function updateGameArea() {
         myGameArea.frameNo += 1;
         if (myGameArea.frameNo == 1 || everyinterval(150)) {
             x = myGameArea.canvas.width;
-            minHeight = 20;
+            minHeight = 0;
             maxHeight = 200;
             height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
             minGap = 50;
@@ -262,7 +262,7 @@ function updateGameArea() {
         if(myGameArea.frameNo%10000 == 0){
             speedObstacle--;
         }
-        if (myGameArea.frameNo == 1 || everyinterval(100)) {
+        if (myGameArea.frameNo == 1 || everyinterval(200)) {
             x = myGameArea.canvas.width;
             height = 20;
             width = 20;
@@ -283,14 +283,14 @@ function updateGameArea() {
         mainCaracImg.speedY = 0;
         if (myGameArea.keys && myGameArea.keys[37]) {
             mainCaracImg.speedX = -1;
-            mainCaracImg.image.src = "images/ghosty_ghost2_left_resized.png";
+            mainCaracImg.image.src = "images/ghosty_ghost1_left_resized.png";
         }
         if (myGameArea.keys && myGameArea.keys[39] && sidecollision == false) {
             mainCaracImg.speedX = 2;
-            mainCaracImg.image.src = "images/ghosty_ghost2_resized.png";
+            mainCaracImg.image.src = "images/ghosty_ghost1_resized.png";
         }
         if (myGameArea.keys && myGameArea.keys[32] && mainCaracImg.y == floor) {
-            mainCaracImg.image.src = "images/ghosty_ghost2_resized.png";
+            mainCaracImg.image.src = "images/ghosty_ghost1_resized.png";
             ceil = floor - 100;
             mainCaracImg.gravitySpeed = 0;
             accelerate(-ACELLERATECONST);
