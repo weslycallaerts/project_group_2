@@ -6,18 +6,15 @@
 </head>
 <script>
     var hiscore = localStorage.getItem("username");
-    var hiscoreList = document.getElementById("hiscoreList").innerHTML;
-    var text;
-    var listElement = document.createElement("li").innerHTML;
-    text = document.createTextNode(hiscore);
-    listElement.appendChild(text);
-    hiscoreList.appendChild(listElement);
+    var screenhiscore = document.getElementById(screenhiscore);
+    screenhiscore = hiscore;
+
+
 </script>
 <body>
 <div id="container">
     <div id="canvaswrapper">
-        <ol id="hiscoreList">
-        </ol>
+        <p id="screenhiscore"></p>
     </div>
 </div>
 </body>
