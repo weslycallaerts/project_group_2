@@ -11,9 +11,10 @@ var ceil;
 var speedGames = 20 ;
 
 function startGame() {
-    monsterImg = new component(200, 480, "images/scary ghost.gif", 0, 0, "image");
-    floorImg = new component(896, 96, "green", 0, POSTFLOOR);
-    mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "images/Ghosty ghost.gif", 250, 250, "image");
+    monsterImg = new component(200, 400, "images/scary_ghost2_resized.png", 0, 50, "image");
+    floorImg = new component(896, 96, "brown", 0, POSTFLOOR);
+    myBackground = new background(896, 576, "images/background.jpg", 0, 0, "image");
+    mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "images/ghosty_ghost1_resized.png", 250, 250, "image");
     myGameArea.start();
 }
 
