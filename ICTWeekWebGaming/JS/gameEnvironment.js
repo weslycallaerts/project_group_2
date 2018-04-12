@@ -4,7 +4,7 @@ const ACELLERATECONST  = 0.3;
 var monsterImg;
 var floorImg;
 var mainCaracImg;
-var myObstacle;
+var myObstacles = [];
 var floor = POSTFLOOR - HEIGHTMAINCARAC ;
 var ceil;
 
@@ -12,7 +12,6 @@ function startGame() {
     monsterImg = new component(30, 480, "red", 5, 10);
     floorImg = new component(896, 96, "green", 0, POSTFLOOR);
     mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "blue", 100, 250);
-    myObstacle  = new component(200, 200, "green", 300, 250);
     myGameArea.start();
 }
 
@@ -21,6 +20,7 @@ function startGame() {
  * @type {{canvas: HTMLCanvasElement, start: myGameArea.start, clear: myGameArea.clear, stop: myGameArea.stop}}
  *
  */
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -28,6 +28,7 @@ var myGameArea = {
         this.canvas.height = 576;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
@@ -52,15 +53,34 @@ function updateGameArea() {
     if (mainCaracImg.crashWith(monsterImg)) {
         myGameArea.stop();
     } else {
-        if(mainCaracImg.collideWith(myObstacle)){
-            floor = mainCaracImg.y;
-        }
-        else{
-            floor = POSTFLOOR - HEIGHTMAINCARAC;
+        var x, y;
+        var collision = false;
+        for (i = 0; i < myObstacles.length; i += 1) {
+            if(mainCaracImg.collideWith(myObstacles[i])){
+                floor = mainCaracImg.y;
+                collision = true;
+            }
+            else if (!collision){
+                floor = POSTFLOOR - HEIGHTMAINCARAC;
+            }
         }
         myGameArea.clear();
-        myObstacle.update();
-        myObstacle.x -= 1;
+        myGameArea.frameNo += 1;
+        if (myGameArea.frameNo == 1 || everyinterval(150)) {
+            x = myGameArea.canvas.width;
+            minHeight = 20;
+            maxHeight = 200;
+            height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+            minGap = 50;
+            maxGap = 200;
+            gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+            myObstacles.push(new component(10, height, "green", x, 0));
+            myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+        }
+        for (i = 0; i < myObstacles.length; i += 1) {
+            myObstacles[i].x += -1;
+            myObstacles[i].update();
+        }
         monsterImg.update();
         mainCaracImg.x -= 1;
         mainCaracImg.speedX = 0;
@@ -159,4 +179,9 @@ function component(width, height, color, x, y) {
 }
 function accelerate(n) {
     mainCaracImg.gravity = n;
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
 }
