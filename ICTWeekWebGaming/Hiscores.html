@@ -2,21 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="CSS/layout_startscreen.css">
     <title>Hiscores</title>
 </head>
 
 <body>
 <div id="container">
+    <img src="images/ghost_run_logo.png">
     <div id="canvaswrapper">
-        <div id="screenhiscore"></div>
+        <h3 id="screenscore"></h3>
+        <p id ="screenhiscore"></p>
+        <form action="Games.html">
+            <input id="Again" type="submit" value="Try again">
+        </form>
+        <p></p>
+        <form action="Startscreen.html">
+            <input id="Other" type="submit" value="Other player">
+        </form>
     </div>
 </div>
 </body>
 </html>
 <script>
     var name = localStorage.getItem("username");
-    var hiscore = localStorage.getItem("score");
-    //localstorage.setItem("oldscore","oldscore");
-    var screenhiscore = document.getElementById("screenhiscore");
-    screenhiscore.innerHTML = "Congratulations, " + name + "! Your score was: " + hiscore;
+    var score = localStorage.getItem("score");
+    var hiscore = localStorage.getItem("hiscore");
+    if (hiscore == null)
+    {
+        localStorage.setItem("hiscore", score);
+    }
+    else if (hiscore < score){
+        localStorage.setItem("hiscore", score);
+        var screenhiscore = document.getElementById("screenhiscore");
+        screenhiscore.innerHTML = "That's a new hiscore!";
+    }
+    else {
+        var screenhiscore = document.getElementById("screenhiscore");
+        screenhiscore.innerHTML = "Your best score so far was " + hiscore + ", try to beat it!";
+    }
+    var screenscore = document.getElementById("screenscore");
+    screenscore.innerHTML = "Congratulations, " + name + "! Your score was: " + score;
 </script>
