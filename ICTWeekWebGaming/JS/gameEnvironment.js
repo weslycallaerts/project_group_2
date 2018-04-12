@@ -53,6 +53,7 @@ var myGameArea = {
     },
     stop : function() {
         clearInterval(this.interval);
+        window.location.href = "Hiscores.html";
     }
 }
 
@@ -267,7 +268,7 @@ function updateGameArea() {
             height = 20;
             width = 20;
             position = mainCaracImg.y;
-            myBullets.push(new component(width, height, 'black', 20, position));
+            myBullets.push(new component(width, height, 'images/plasma.png', 20, position, "image"));
         }
         for (i = 0; i < myObstacles.length; i += 1) {
             myObstacles[i].x += speedObstacle;
@@ -297,6 +298,7 @@ function updateGameArea() {
         }
         if(myGameArea.frameNo%100 == 0){
             myScore.text="SCORE: " + myGameArea.frameNo/100;
+            localStorage.setItem("score",myGameArea.frameNo/100);
         }
         myScore.update();
         mainCaracImg.newPos();
