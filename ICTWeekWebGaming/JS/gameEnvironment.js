@@ -19,7 +19,7 @@ function startGame() {
     monsterImg = new component(200, 300, "images/scary_ghost2_resized.png", 0, 250, "monster");
     floorImg = new component(896, 96,"images/underground.png", 0, POSTFLOOR, "floor");
     myScore = new component("30px", "Consolas", "white", 700, 40, "text");
-    floorOfDeath = new component(896, 0, "brown", 0, 580, "floor")
+    floorOfDeath = new component(1000, 1, "brown", 0, 706, "floor")
     myScore.text="SCORE: 0";
     myBackground = new background(896, 576, "images/background.jpg", 0, 0, "image");
     mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "images/ghosty_ghost1_resized.png", 400, 400, "image");
@@ -321,5 +321,6 @@ function updateGameArea() {
         myScore.update();
         mainCaracImg.newPos();
         mainCaracImg.update();
+        floorOfDeath.update();
     }
 }
