@@ -170,6 +170,7 @@ function component(width, height, color, x, y) {
         var otherbottom = otherobj.y + (otherobj.height);
         var collide = true;
         if ((mybottom < othertop) ||
+            (mytop > otherbottom) ||
             (myright < otherleft) ||
             (myleft > otherright)) {
             collide = false;
