@@ -4,7 +4,7 @@ const ACELLERATECONST  = 0.3;
 var monsterImg;
 var floorImg;
 var mainCaracImg;
-var myObstacles = [];
+var myPlatforms = [];
 var myBullets = [];
 var myBackground;
 var speedObstacle = -1;
@@ -232,11 +232,11 @@ function updateGameArea() {
         floorImg.speedX = -0.7;
         floorImg.newPos();
         floorImg.update();
-        for (i = 0; i < myObstacles.length; i += 1) {
-            if(mainCaracImg.sideCollision(myObstacles[i])){
+        for (i = 0; i < myPlatforms.length; i += 1) {
+            if(mainCaracImg.sideCollision(myPlatforms[i])){
                 sidecollision = true;
             }
-            if(mainCaracImg.collideWith(myObstacles[i]) || mainCaracImg.collideWith(floorImg)){
+            if(mainCaracImg.collideWith(myPlatforms[i]) || mainCaracImg.collideWith(floorImg)){
                 floor = mainCaracImg.y;
                 collision = true;
             }
@@ -258,10 +258,10 @@ function updateGameArea() {
             minGap = 50;
             maxGap = 200;
             minWidth = 40;
-            maxWidth = 150;
+            maxWidth = 220;
             width = Math.floor(Math.random() * (maxWidth - minWidth + 1) + minWidth);
             gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-            myObstacles.push(new component(width, 50, "images/block.png", x, height + gap, "image"));
+            myPlatforms.push(new component(width, 50, "images/block.png", x, height + gap, "image"));
 
         }
         if(myGameArea.frameNo%10000 == 0){
@@ -274,9 +274,9 @@ function updateGameArea() {
             position = mainCaracImg.y;
             myBullets.push(new component(width, height, 'images/plasma.png', 20, position, "image"));
         }
-        for (i = 0; i < myObstacles.length; i += 1) {
-            myObstacles[i].x += speedObstacle;
-            myObstacles[i].update();
+        for (i = 0; i < myPlatforms.length; i += 1) {
+            myPlatforms[i].x += speedObstacle;
+            myPlatforms[i].update();
         }
         for (i = 0; i < myBullets.length; i += 1) {
             myBullets[i].x += 2;
