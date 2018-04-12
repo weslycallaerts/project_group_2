@@ -285,7 +285,7 @@ function updateGameArea() {
             mainCaracImg.speedX = -1;
             mainCaracImg.image.src = "images/ghosty_ghost2_left_resized.png";
         }
-        if (myGameArea.keys && myGameArea.keys[39] && sidecollision == false) {
+        if (myGameArea.keys && myGameArea.keys[39] && sidecollision == false && mainCaracImg.x + 32 < 896) {
             mainCaracImg.speedX = 2;
             mainCaracImg.image.src = "images/ghosty_ghost2_resized.png";
         }
