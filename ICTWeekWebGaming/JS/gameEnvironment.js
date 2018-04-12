@@ -228,6 +228,9 @@ function updateGameArea() {
         myGameArea.clear();
         myBackground.newPos();
         myBackground.update();
+        floorImg.speedX = -0.1;
+        floorImg.newPos();
+        floorImg.update();
         for (i = 0; i < myObstacles.length; i += 1) {
             if(mainCaracImg.sideCollision(myObstacles[i])){
                 sidecollision = true;
@@ -303,8 +306,5 @@ function updateGameArea() {
         myScore.update();
         mainCaracImg.newPos();
         mainCaracImg.update();
-        floorImg.speedX = -0.1;
-        floorImg.newPos();
-        floorImg.update();
     }
 }
