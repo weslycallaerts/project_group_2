@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <title>Hiscores</title>
 </head>
-<script>
-    var hiscore = localStorage.getItem("username");
-    var screenhiscore = document.getElementById(screenhiscore);
-    screenhiscore = hiscore;
 
-
-</script>
 <body>
 <div id="container">
     <div id="canvaswrapper">
-        <p id="screenhiscore"></p>
+        <div id="screenhiscore"></div>
     </div>
 </div>
 </body>
 </html>
+<script>
+    var name = localStorage.getItem("username");
+    var hiscore = localStorage.getItem("score");
+    //localstorage.setItem("oldscore","oldscore");
+    var screenhiscore = document.getElementById("screenhiscore");
+    screenhiscore.innerHTML = "Congratulations, " + name + "! Your score was: " + hiscore;
+</script>
