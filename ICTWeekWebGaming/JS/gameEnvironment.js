@@ -16,7 +16,7 @@ var floorOfDeath;
 
 function startGame() {
     monsterImg = new component(200, 400, "images/scary_ghost2_resized.png", 0, 50, "image");
-    floorImg = new component(896, 96, "brown", 0, POSTFLOOR, "floor");
+    floorImg = new component(896, 96,"images/underground.png", 0, POSTFLOOR, "floor");
     myScore = new component("30px", "Consolas", "white", 700, 40, "text");
     floorOfDeath = new component(896, 0, "brown", 0, 790, "floor")
     myScore.text="SCORE: 0";
@@ -67,7 +67,7 @@ var myGameArea = {
  */
 function component(width, height, color, x, y, type = "none") {
     this.type = type;
-    if (type == "image") {
+    if (type == "image" || type =="floor") {
         this.image = new Image();
         this.image.src = color;
     }
@@ -81,7 +81,7 @@ function component(width, height, color, x, y, type = "none") {
     this.gravitySpeed = 0;
     this.update = function(){
         ctx = myGameArea.context;
-        if (type == "image") {
+        if (type == "image" || type =="floor") {
             ctx.drawImage(this.image,
                 this.x,
                 this.y,
@@ -228,6 +228,9 @@ function updateGameArea() {
         myGameArea.clear();
         myBackground.newPos();
         myBackground.update();
+        floorImg.speedX = -0.1;
+        floorImg.newPos();
+        floorImg.update();
         for (i = 0; i < myObstacles.length; i += 1) {
             if(mainCaracImg.sideCollision(myObstacles[i])){
                 sidecollision = true;
@@ -303,8 +306,5 @@ function updateGameArea() {
         myScore.update();
         mainCaracImg.newPos();
         mainCaracImg.update();
-        floorImg.speedX = -0.1;
-        floorImg.newPos();
-        floorImg.update();
     }
 }
