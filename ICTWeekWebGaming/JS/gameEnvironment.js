@@ -264,8 +264,8 @@ function updateGameArea() {
             myPlatforms.push(new component(width, 50, "images/block.png", x, height + gap, "image"));
 
         }
-        if(myGameArea.frameNo%10000 == 0){
-            speedObstacle--;
+        if(myGameArea.frameNo%5000 == 0){
+            speedObstacle -= 0.1;
         }
         if (myGameArea.frameNo == 1 || everyinterval(200)) {
             x = myGameArea.canvas.width;
