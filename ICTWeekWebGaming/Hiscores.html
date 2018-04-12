@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <title>Hiscores</title>
 </head>
+<script>
+    var hiscore = localStorage.getItem("username");
+    var hiscoreList = document.getElementById("hiscoreList").innerHTML;
+    var text;
+    var listElement = document.createElement("li").innerHTML;
+    text = document.createTextNode(hiscore);
+    listElement.appendChild(text);
+    hiscoreList.appendChild(listElement);
+</script>
 <body>
 <div id="container">
     <div id="canvaswrapper">
-        <h3>Here's your score!</h3>
-        <p>localStorage.getItem("hiscore")</p>
+        <ol id="hiscoreList">
+        </ol>
     </div>
 </div>
 </body>

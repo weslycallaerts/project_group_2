@@ -53,6 +53,7 @@ var myGameArea = {
 function updateGameArea() {
     if (mainCaracImg.crashWith(monsterImg)) {
         myGameArea.stop();
+        window.location.href = "hiscores.html";
     } else {
         var x, y;
         var collision = false;
@@ -203,9 +204,13 @@ function component(width, height, color, x, y, type = "none") {
     this.sideCollision = function(otherobj) {
         var myright = this.x + (this.width);
         var otherleft = otherobj.x;
-        var sidecollision = true;
-        if (myright == otherleft) {
-            sidecollision = true;
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var sidecollision = false;
+        if (myright == otherleft && mytop < othertop && mytop > otherbottom && mybottom < othertop && mybottom > otherbottom){
+                sidecollision = true;
         }
         else
         {
