@@ -56,7 +56,11 @@ function updateGameArea() {
     } else {
         var x, y;
         var collision = false;
+        var sidecollision = false;
         for (i = 0; i < myObstacles.length; i += 1) {
+            if(mainCaracImg.sideCollision(myObstacles[i])){
+                sidecollision = true;
+            }
             if(mainCaracImg.collideWith(myObstacles[i])){
                 floor = mainCaracImg.y;
                 collision = true;
@@ -64,6 +68,7 @@ function updateGameArea() {
             else if (!collision){
                 floor = POSTFLOOR - HEIGHTMAINCARAC;
             }
+
         }
         myGameArea.clear();
         myGameArea.frameNo += 1;
@@ -94,7 +99,7 @@ function updateGameArea() {
         if (myGameArea.keys && myGameArea.keys[37]) {
             mainCaracImg.speedX = -1;
         }
-        if (myGameArea.keys && myGameArea.keys[39]) {
+        if (myGameArea.keys && myGameArea.keys[39] && sidecollision == false) {
             mainCaracImg.speedX = 2;
         }
         if (myGameArea.keys && myGameArea.keys[32] && mainCaracImg.y == floor) {
@@ -194,6 +199,19 @@ function component(width, height, color, x, y, type = "none") {
             collide = false;
         }
         return collide;
+    }
+    this.sideCollision = function(otherobj) {
+        var myright = this.x + (this.width);
+        var otherleft = otherobj.x;
+        var sidecollision = true;
+        if (myright == otherleft) {
+            sidecollision = true;
+        }
+        else
+        {
+            sidecollision = false;
+        }
+        return sidecollision;
     }
 }
 function accelerate(n) {
