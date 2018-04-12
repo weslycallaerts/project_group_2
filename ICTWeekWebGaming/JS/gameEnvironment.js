@@ -16,7 +16,7 @@ var floorOfDeath;
 var isOnTop = false;
 
 function startGame() {
-    monsterImg = new component(200, 400, "images/scary_ghost2_resized.png", 0, 150, "monster");
+    monsterImg = new component(200, 300, "images/scary_ghost2_resized.png", 0, 250, "monster");
     floorImg = new component(896, 96,"images/underground.png", 0, POSTFLOOR, "floor");
     myScore = new component("30px", "Consolas", "white", 700, 40, "text");
     floorOfDeath = new component(896, 0, "brown", 0, 580, "floor")
@@ -283,14 +283,14 @@ function updateGameArea() {
             myBullets[i].update();
         }
         if(!isOnTop){
-            monsterImg.speedY = -0.7;
-            if(myGameArea.frameNo%200 == 0){
+            monsterImg.speedY = -1;
+            if(myGameArea.frameNo%250 == 0){
                 isOnTop = true;
             }
         }
         else{
-            monsterImg.speedY = 0.7;
-            if(myGameArea.frameNo%200 == 0){
+            monsterImg.speedY = 1;
+            if(myGameArea.frameNo%250 == 0){
                 isOnTop = false;
             }
         }
