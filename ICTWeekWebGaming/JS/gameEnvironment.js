@@ -309,7 +309,6 @@ function updateGameArea() {
             mainCaracImg.image.src = "images/ghosty_ghost1_resized.png";
         }
         if (myGameArea.keys && myGameArea.keys[32] && mainCaracImg.y == floor) {
-            mainCaracImg.image.src = "images/ghosty_ghost1_resized.png";
             ceil = floor - 100;
             mainCaracImg.gravitySpeed = 0;
             accelerate(-ACELLERATECONST);
