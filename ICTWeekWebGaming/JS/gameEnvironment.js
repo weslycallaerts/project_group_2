@@ -13,12 +13,13 @@ var floor = POSTFLOOR - HEIGHTMAINCARAC ;
 var ceil;
 var speedGames = 10 ;
 var floorOfDeath;
+var isOnTop = false;
 
 function startGame() {
-    monsterImg = new component(200, 400, "images/scary_ghost2_resized.png", 0, 50, "image");
+    monsterImg = new component(200, 400, "images/scary_ghost2_resized.png", 0, 150, "monster");
     floorImg = new component(896, 96,"images/underground.png", 0, POSTFLOOR, "floor");
     myScore = new component("30px", "Consolas", "white", 700, 40, "text");
-    floorOfDeath = new component(896, 0, "brown", 0, 790, "floor")
+    floorOfDeath = new component(896, 0, "brown", 0, 580, "floor")
     myScore.text="SCORE: 0";
     myBackground = new background(896, 576, "images/background.jpg", 0, 0, "image");
     mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "images/ghosty_ghost1_resized.png", 400, 400, "image");
@@ -67,7 +68,7 @@ var myGameArea = {
  */
 function component(width, height, color, x, y, type = "none") {
     this.type = type;
-    if (type == "image" || type =="floor") {
+    if (type == "image" || type =="floor" || type =="monster") {
         this.image = new Image();
         this.image.src = color;
     }
@@ -81,7 +82,7 @@ function component(width, height, color, x, y, type = "none") {
     this.gravitySpeed = 0;
     this.update = function(){
         ctx = myGameArea.context;
-        if (type == "image" || type =="floor") {
+        if (type == "image" || type =="floor" || type =="monster") {
             ctx.drawImage(this.image,
                 this.x,
                 this.y,
@@ -98,9 +99,9 @@ function component(width, height, color, x, y, type = "none") {
         }
     }
     this.newPos = function() {
-        if(type =="floor"){
-
+        if(type =="floor" || type =="monster"){
             this.x += this.speedX;
+            this.y += this.speedY;
         }else {
             this.gravitySpeed += this.gravity;
             this.x += this.speedX;
@@ -228,7 +229,7 @@ function updateGameArea() {
         myGameArea.clear();
         myBackground.newPos();
         myBackground.update();
-        floorImg.speedX = -0.1;
+        floorImg.speedX = -0.7;
         floorImg.newPos();
         floorImg.update();
         for (i = 0; i < myObstacles.length; i += 1) {
@@ -281,7 +282,21 @@ function updateGameArea() {
             myBullets[i].x += 2;
             myBullets[i].update();
         }
+        if(!isOnTop){
+            monsterImg.speedY = -0.7;
+            if(myGameArea.frameNo%200 == 0){
+                isOnTop = true;
+            }
+        }
+        else{
+            monsterImg.speedY = 0.7;
+            if(myGameArea.frameNo%200 == 0){
+                isOnTop = false;
+            }
+        }
+        monsterImg.newPos();
         monsterImg.update();
+
         mainCaracImg.x -= 1;
         mainCaracImg.speedX = 0;
         mainCaracImg.speedY = 0;

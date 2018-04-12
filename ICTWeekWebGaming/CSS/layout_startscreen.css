@@ -4,9 +4,13 @@ body {
     color: white;
     text-align: center;
 }
-img {
+#logo {
     height: auto;
     width: auto;
     max-width: 500px;
     max-height: 500px;
+}
+#resize{
+    height: 175px;
+    width: 175px;
 }
