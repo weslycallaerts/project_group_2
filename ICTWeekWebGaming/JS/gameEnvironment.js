@@ -6,13 +6,19 @@ var floorImg;
 var mainCaracImg;
 var myObstacles = [];
 var myBackground;
+var speedObstacle = -1;
+var myScore;
 var floor = POSTFLOOR - HEIGHTMAINCARAC ;
 var ceil;
-var speedGames = 20 ;
+var speedGames = 10 ;
+var floorOfDeath;
 
 function startGame() {
     monsterImg = new component(200, 400, "images/scary_ghost2_resized.png", 0, 50, "image");
-    floorImg = new component(896, 96, "brown", 0, POSTFLOOR);
+    floorImg = new component(896, 96, "brown", 0, POSTFLOOR, "floor");
+    myScore = new component("30px", "Consolas", "white", 700, 40, "text");
+    floorOfDeath = new component(896, 0, "brown", 0, 790, "floor")
+    myScore.text="SCORE: 0";
     myBackground = new background(896, 576, "images/background.jpg", 0, 0, "image");
     mainCaracImg = new component(HEIGHTMAINCARAC, HEIGHTMAINCARAC, "images/ghosty_ghost1_resized.png", 250, 250, "image");
     myGameArea.start();
@@ -78,17 +84,29 @@ function component(width, height, color, x, y, type = "none") {
                 this.x,
                 this.y,
                 this.width, this.height);
-        } else {
+        }
+        else if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        }
+        else {
             ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
     this.newPos = function() {
-        this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY + this.gravitySpeed;
-        this.hitBottom();
-        this.hitCeiling();
+        if(type =="floor"){
+
+            this.x += this.speedX;
+        }else {
+            this.gravitySpeed += this.gravity;
+            this.x += this.speedX;
+            this.y += this.speedY + this.gravitySpeed;
+            this.hitBottom();
+            this.hitCeiling();
+        }
+
     }
     this.hitBottom = function() {
         if (this.y > floor) {
@@ -199,7 +217,7 @@ function everyinterval(n) {
  * Update the game area to make it dynamique
  */
 function updateGameArea() {
-    if (mainCaracImg.crashWith(monsterImg)) {
+    if (mainCaracImg.crashWith(monsterImg) || mainCaracImg.crashWith(floorOfDeath)) {
         myGameArea.stop();
     } else {
         var x, y;
@@ -212,12 +230,12 @@ function updateGameArea() {
             if(mainCaracImg.sideCollision(myObstacles[i])){
                 sidecollision = true;
             }
-            if(mainCaracImg.collideWith(myObstacles[i])){
+            if(mainCaracImg.collideWith(myObstacles[i]) || mainCaracImg.collideWith(floorImg)){
                 floor = mainCaracImg.y;
                 collision = true;
             }
             else if (!collision){
-                floor = POSTFLOOR - HEIGHTMAINCARAC;
+                floor = 856;
             }
         }
         myGameArea.frameNo += 1;
@@ -233,17 +251,17 @@ function updateGameArea() {
             width = Math.floor(Math.random() * (maxWidth - minWidth + 1) + minWidth);
             gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
             myObstacles.push(new component(width, 50, "images/block.png", x, height + gap, "image"));
+
         }
-        if(everyinterval(2000)){// TODO
-            speedGames--;
+        if(myGameArea.frameNo%10000 == 0){
+            speedObstacle--;
         }
         for (i = 0; i < myObstacles.length; i += 1) {
-            myObstacles[i].x += -1;
+            myObstacles[i].x += speedObstacle;
             myObstacles[i].update();
         }
         monsterImg.update();
         mainCaracImg.x -= 1;
-        floorImg.x -= 0.5;
         mainCaracImg.speedX = 0;
         mainCaracImg.speedY = 0;
         if (myGameArea.keys && myGameArea.keys[37]) {
@@ -260,8 +278,14 @@ function updateGameArea() {
             mainCaracImg.gravitySpeed = 0;
             accelerate(-ACELLERATECONST);
         }
+        if(myGameArea.frameNo%100 == 0){
+            myScore.text="SCORE: " + myGameArea.frameNo/100;
+        }
+        myScore.update();
         mainCaracImg.newPos();
         mainCaracImg.update();
+        floorImg.speedX = -0.1;
+        floorImg.newPos();
         floorImg.update();
     }
 }
