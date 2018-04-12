@@ -29,7 +29,7 @@ var myGameArea = {
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 20);
+        this.interval = setInterval(updateGameArea, 10);
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
             myGameArea.keys[e.keyCode] = (e.type == "keydown");
@@ -55,7 +55,11 @@ function updateGameArea() {
     } else {
         var x, y;
         var collision = false;
+        var sidecollision = false;
         for (i = 0; i < myObstacles.length; i += 1) {
+            if(mainCaracImg.sideCollision(myObstacles[i])){
+                sidecollision = true;
+            }
             if(mainCaracImg.collideWith(myObstacles[i])){
                 floor = mainCaracImg.y;
                 collision = true;
@@ -63,6 +67,7 @@ function updateGameArea() {
             else if (!collision){
                 floor = POSTFLOOR - HEIGHTMAINCARAC;
             }
+
         }
         myGameArea.clear();
         myGameArea.frameNo += 1;
@@ -88,7 +93,7 @@ function updateGameArea() {
         if (myGameArea.keys && myGameArea.keys[37]) {
             mainCaracImg.speedX = -1;
         }
-        if (myGameArea.keys && myGameArea.keys[39]) {
+        if (myGameArea.keys && myGameArea.keys[39] && sidecollision == false) {
             mainCaracImg.speedX = 2;
         }
         if (myGameArea.keys && myGameArea.keys[32] && mainCaracImg.y == floor) {
@@ -176,6 +181,19 @@ function component(width, height, color, x, y) {
             collide = false;
         }
         return collide;
+    }
+    this.sideCollision = function(otherobj) {
+        var myright = this.x + (this.width);
+        var otherleft = otherobj.x;
+        var sidecollision = true;
+        if (myright == otherleft) {
+            sidecollision = true;
+        }
+        else
+        {
+            sidecollision = false;
+        }
+        return sidecollision;
     }
 }
 function accelerate(n) {
