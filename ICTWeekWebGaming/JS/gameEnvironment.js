@@ -5,6 +5,7 @@ var monsterImg;
 var floorImg;
 var mainCaracImg;
 var myObstacles = [];
+var myBullets = [];
 var myBackground;
 var floor = POSTFLOOR - HEIGHTMAINCARAC ;
 var ceil;
@@ -220,6 +221,11 @@ function updateGameArea() {
                 floor = POSTFLOOR - HEIGHTMAINCARAC;
             }
         }
+        for (i = 0; i < myBullets.length; i += 1) {
+            if(mainCaracImg.crashWith(myBullets[i])){
+                myGameArea.stop();
+            }
+        }
         myGameArea.frameNo += 1;
         if (myGameArea.frameNo == 1 || everyinterval(150)) {
             x = myGameArea.canvas.width;
@@ -234,12 +240,24 @@ function updateGameArea() {
             gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
             myObstacles.push(new component(width, 50, "images/block.png", x, height + gap, "image"));
         }
+        if (myGameArea.frameNo == 1 || everyinterval(100)) {
+            x = myGameArea.canvas.width;
+            height = 20;
+            width = 20;
+            position = mainCaracImg.y;
+            myBullets.push(new component(width, height, 'black', 20, position));
+        }
+
         if(everyinterval(2000)){// TODO
             speedGames--;
         }
         for (i = 0; i < myObstacles.length; i += 1) {
             myObstacles[i].x += -1;
             myObstacles[i].update();
+        }
+        for (i = 0; i < myBullets.length; i += 1) {
+            myBullets[i].x += 2;
+            myBullets[i].update();
         }
         monsterImg.update();
         mainCaracImg.x -= 1;
