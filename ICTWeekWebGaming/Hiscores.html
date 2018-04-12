@@ -25,11 +25,12 @@
 </html>
 <script>
     var name = localStorage.getItem("username");
-    var score = localStorage.getItem("score");
-    var hiscore = localStorage.getItem("hiscore");
+    var score = Number(localStorage.getItem("score"));
+    var hiscore = Number(localStorage.getItem("hiscore"));
     if (hiscore == null)
     {
         localStorage.setItem("hiscore", score);
+        hiscore = score;
     }
     else if (hiscore < score){
         localStorage.setItem("hiscore", score);
